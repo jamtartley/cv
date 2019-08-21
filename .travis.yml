@@ -2,20 +2,24 @@ sudo: required
 dist: trusty
 language: general
 install:
-    - source ./texlive/texlive_install.sh
+- source ./texlive/texlive_install.sh
 cache:
-    directories:
-        - /tmp/texlive
-        - $HOME/.texlive
+  directories:
+  - "/tmp/texlive"
+  - "$HOME/.texlive"
 before_script: cd $TRAVIS_BUILD_DIR/
 script:
-    - mkdir .build
-    - pdflatex -interaction=nonstopmode -halt-on-error -output-directory .build cv.tex
+- mkdir .build
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory .build cv.tex
 deploy:
-    provider: s3
-    access_key_id: AKIA2Y645FQNJUOYV5NE
-    secret_access_key:
-        secure: AgN6SRDYlBQmynsBbBAd9bikFRmbNZeHaWtI6jUR7a79JE8lArfGq/Xns027SV/NkO3ydEab+ZCkX/4fn6ODK93LyKlmF61L6eMjsGEQtmM0fwtYuJoitRCS++3QHZkksE/dVqWDM9oi+gFjOzNf6prcBBw+XVtkWKNY7OqjIYQoISWffS5WA6VwgSc4Bsv0Usqetl6TMZABsb1HeXyHE08fP6/p0HZ2qmVuzaEuLxZn+5rl6O8ruCgImQDfaqP1jEos7MnsV7ba25xG3L+VzU1vdnBvD9xeRj/o/RICCxYbh4nApaWUbZOx4UxCZ2fRLqFc3ZuqH2xGtdFdNuCBr8SLkV64kIC2WyfkCay5R5BZmm7xxoY7DSI91GKl3NsyG8iWGAbFfi2Pb8JDF4y8bqW+OX1wiH7ZkdKFMwQzOJIFGx5mqHhjIgPOSf2f/ofraJZ8iMuZK5fgvvGfDCWHDUIqpPUzt5LiaZbnaH0EEy2wnPBJvnJqy4S3bG7GEYqRl2c9Oac1ptsq15vh0kT2D9jM2qKnQLFSV3B6165Vl8jlziyiGpJ6ZyF+MDawusOAw70IsT/mvpE5hC43noaxu5wDu2l/Midltz3fXsLcL/Skelb0piAiC3dCGg9tp/D7+/qy/+WIdxKGXz2EtJVo4k6R0oQkkPo1VNX+2K30vgA=
-    bucket: cv-sam-hartley
-    skip_cleanup: true
-    local_dir: .build
+  provider: s3
+  access_key_id: AKIA2Y645FQNDQBSMABK
+  secret_access_key:
+    secure: n8WcA+1YBSDSIlOx3ZE+FS2z0WUK2Fqbh+50J+xgJwWBg3Fx58ipRbypu3mQfCN47svm7yLblYNx6U6C2DPnPWrUw6Vyc59gpCyEWhiuTrUsq8XUntq8mjTNwXs58D7cYjqz1UA7Q+IC8w8TFWe4VVwJmID/++UhFYPR0hs91DTjisVXdMDe0sXACBzvgBi+e+dAuc4q08jAdvXilwd5nEBQpv3Z7rrY4fBQ6XrOqM2+N4JJH0satxUEZVWBDQMVqW6BzJidmyTj7UiF09LnUVaJUgqdaYYWfn/yVLRuC1kE8OZcBl+6+1348TOnxS2JEim1IwQTKtvppeZAvTMLigdQNBaEyf9i9uDwhreIODmYm4aG7LijgMJdlu/QhKpWWq2VOAyFYPCb8NayCmPHvC6jd3TjOvAR/1588YxhEo9ON9qeZhYFMR57Z0ue2LAp63kyIz/piSeYhJFmJhHiAcQjtmwGkF6gdyJODGF5jy7bs6Ykyksjb+4fuuvuUyAQSeMI0yj0xhOkYAYJ2s7ygWFXFM51fWMxsPsaahpIZJ/9TZ+Y/RwHrutiBFYPyqEAOJTm0BSvcNsYvTODny3mE1w1MecqoCiBFV1dIjGyVPw0ukUCZK5HMF/juPZOZgsXEn2dzXW7UGJozZsIgCza92yjMUJlaF6IaInNYp1wXa0=
+  bucket: cv-sam-hartley
+  local-dir: ".build"
+  acl: public_read_write
+  skip_cleanup: true
+  on:
+    repo: jamtartley/CV
+    branch: master
