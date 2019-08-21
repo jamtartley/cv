@@ -1,9 +1,13 @@
 sudo: required
 dist: trusty
-before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -y --no-install-recommends texlive
-    - sudo apt-get install texlive-full
+language: general
+install:
+    - source ./texlive/texlive_install.sh
+cache:
+    directories:
+        - /tmp/texlive
+        - $HOME/.texlive
+before_script: cd $TRAVIS_BUILD_DIR/
 script:
     - mkdir .build
     - pdflatex -interaction=nonstopmode -halt-on-error -output-directory .build cv.tex
