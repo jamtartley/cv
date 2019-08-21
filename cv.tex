@@ -3,7 +3,7 @@
 \moderncvstyle{banking}
 \moderncvcolor{orange}
 
-\usepackage[scale=0.75]{geometry}
+\usepackage[scale=0.85]{geometry}
 
 \name{Sam}{Hartley}
 \title{Software Developer}
@@ -15,41 +15,35 @@
 \social[github]{jamtartley}
 
 \begin{document}
-\makecvtitle
+    \makecvtitle
 
-\section{Experience}
-\cventry{Jan 2017--Oct 2019}{Software Developer}{Karma}{London}{}{Wide-ranging experience of leading multiple types of projects - including web apps, mobile games and internal tools. Responsible for hiring new developers and working alongside them to bring them up to speed. Also created and managed the company server infrastructure and web presence, including GSuite administration.}
-\bigbreak
-Projects led at Karma (solo developer on all):
-\begin{itemize}%
-    \input{experience/karma_web}
-    \input{experience/karma_games}
-\end{itemize}
-\cventry{May 2013--Oct 2013}{Software Developer (unpaid)}{Danby's Precision Engineering}{Hull}{}{Helped to create the IT infrastructure of a startup company and wrote software to minimise the labour required for non-engineering administrative tasks such as ordering new raw materials, pricing jobs and sending financial data to the company accountant.}
-\bigbreak
-\begin{itemize}
-    \input{experience/danby_database}
-\end{itemize}
-\section{Competencies}
-\begin{itemize}
-    \item C\#, Python, Javascript, C++, PHP
-    \item Unity, Monogame
-    \item AWS, GCP
-    \item *nix, *sh
-    \item Nginx, Apache
-\end{itemize}
+    \section{Experience}
+    \input{sections/karma/root}
+    \input{sections/danby/root}
 
-\section{Education}
-\cventry{2011--2013}{BTEC Level 3 Software Development}{Hull College}{Hull}{Triple Distinction}{}
-\cventry{2004--2009}{GCSE}{Hymers College}{Hull}{4A* 5A 1B}{}
+    \section{Personal projects}
+    \input{sections/personal_projects/root}
 
-\section{Extracurricular}
-\cvitem{Game development}{Working on a couch multiplayer game (gameplay videos available on twitter)}
-\cvitem{Snooker}{Played to semi-professional level 2009-2011, also played on teams in local leagues}
-\cvitem{Piano}{Keen and competent piano player, specifically enjoy playing ragtime}
+    \section{Competencies}
+    \begin{itemize}
+        \item C\#, Python, Javascript, C++, PHP
+        \item Unity, Monogame
+        \item AWS, GCP
+        \item *nix, *sh
+        \item Nginx, Apache
+    \end{itemize}
 
-\section{References}
-References are available upon request.
+    \section{Education}
+    \cventry{2011--2013}{BTEC Level 3 Software Development}{Hull College}{Hull}{Triple Distinction}{}
+    \cventry{2004--2009}{GCSE}{Hymers College}{Hull}{4A* 5A 1B}{}
 
-\clearpage
+    \section{Extracurricular}
+    \cvitem{Game development}{Working on a couch multiplayer game (gameplay videos available on twitter)}
+    \cvitem{Snooker}{Played to semi-professional level 2009-2011, also played on teams in local leagues}
+    \cvitem{Piano}{Keen and competent piano player, specifically enjoy playing ragtime}
+
+    \section{References}
+    References are available upon request.
+
+    \clearpage
 \end{document}
