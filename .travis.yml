@@ -7,19 +7,39 @@ cache:
   directories:
   - "/tmp/texlive"
   - "$HOME/.texlive"
+notifications:
+  email: false
+  irc:
+    use_notice: true
+    skip_join: false
+    on_success: always
+    on_failure: always
+    template:
+    - "%{author} pushed to the repo %{repository_slug} on the %{branch} branch. %{message}"
+    - "======================="
+    - "%{commit_message}"
+    - "======================="
+    - 'Code diff: %{compare_url}'
+    - 'Travis build log: %{build_url}'
+    channels:
+      secure: WQgIzL+4yeDNxuG2ZttcjHFFLJtGGraTj7MgXKuw3iYKsuVMtaZ9mZ1yx1nb9mmC/bxEbog/rGWh5qhQFSDBviqgsJrWJN5nZw2rJHRJgxGS6uJR9IZQBXGxN0JcvG9l92kYVRJiDPENBdzSE8UNphF0AScFSCHSQ3R09Hp6tYHFrA/VitMcl+dCV122GHM5YMx5Z+ExsCR2NWtHJ/+h7KrJNUs68g0X6aUndfU5IGGrlSDhJBJAYTiM8FB9Ca3BZfWZo6/U0Hpdck0f0IdI2MG2qRl+piQZysfJsARD2GyBKR+3RinIzlyeokLU9ow51Hnf2zJUXyjn0uWj6rE+tlnwRAI7NcDWS3hZcWo7ypg5MqoSb/wsc/RE+Z1KyZ7n5wPWRg4HuuaikjnhKukeKx5gIwLb/lPDHaVf/99277Sh+yNyEZhBLGeNsDolLDD2+oQyiUTu4JXRTWTrGuu0YeovNXJc5+G/Da1BFUSdG6saO4ztWnfffB1ueckT2rkGC3jMEmXoLp0cXdGVYyCmKVTA2ZR6ToZh8OXRhzVOsyiSQ8zF41ruT7hoe7WkL4l60FDt+SqNdLHIkHDKQy76ykj+n2l40n5XFMHnNLZ5znrefv9P5OEd5tVGRYZIbBKsMqvwfQ7a5xTZeh3KtRrmo2FpdjgAAuRF9cyhUFeNi00=
 before_script: cd $TRAVIS_BUILD_DIR/
 script:
 - mkdir .build
 - pdflatex -interaction=nonstopmode -halt-on-error -output-directory .build cv.tex
 deploy:
   provider: s3
-  access_key_id: AKIA2Y645FQNDQBSMABK
-  secret_access_key:
-    secure: n8WcA+1YBSDSIlOx3ZE+FS2z0WUK2Fqbh+50J+xgJwWBg3Fx58ipRbypu3mQfCN47svm7yLblYNx6U6C2DPnPWrUw6Vyc59gpCyEWhiuTrUsq8XUntq8mjTNwXs58D7cYjqz1UA7Q+IC8w8TFWe4VVwJmID/++UhFYPR0hs91DTjisVXdMDe0sXACBzvgBi+e+dAuc4q08jAdvXilwd5nEBQpv3Z7rrY4fBQ6XrOqM2+N4JJH0satxUEZVWBDQMVqW6BzJidmyTj7UiF09LnUVaJUgqdaYYWfn/yVLRuC1kE8OZcBl+6+1348TOnxS2JEim1IwQTKtvppeZAvTMLigdQNBaEyf9i9uDwhreIODmYm4aG7LijgMJdlu/QhKpWWq2VOAyFYPCb8NayCmPHvC6jd3TjOvAR/1588YxhEo9ON9qeZhYFMR57Z0ue2LAp63kyIz/piSeYhJFmJhHiAcQjtmwGkF6gdyJODGF5jy7bs6Ykyksjb+4fuuvuUyAQSeMI0yj0xhOkYAYJ2s7ygWFXFM51fWMxsPsaahpIZJ/9TZ+Y/RwHrutiBFYPyqEAOJTm0BSvcNsYvTODny3mE1w1MecqoCiBFV1dIjGyVPw0ukUCZK5HMF/juPZOZgsXEn2dzXW7UGJozZsIgCza92yjMUJlaF6IaInNYp1wXa0=
-  bucket: cv-sam-hartley
+  access_key_id: $AWS_ACCESS_KEY_ID
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
+  bucket: $AWS_BUCKET_NAME
   local-dir: ".build"
-  acl: public_read_write
+  acl: public_read
   skip_cleanup: true
   on:
     repo: jamtartley/CV
     branch: master
+env:
+  global:
+  - secure: qxFsxxF54e+wq8akh7mracAof3Kmbpub9TkQJKhcwzVW4mVVirJGEYQsVmM0L9FICBVsYLnv/unkbkZMQ2Ic08BFXZDONPbHnwxwb1lvg6wPf3/32TkOCHQ+f1gRw5ZWE95PBxkLas2lA2Jzb0K33kLW9X01bdrZlBV8owjrxj992NimR9DX0t2z54KGVMUIXjXYggWsnflw4AgeKLzTq2whGCctmh7DjqT+jLTVgwAhsmguDUcZaXRvctPVbwMwnd7BrG1CJd4zilF/X04G+3DV6UDW9WQPmtekJruDJTJ+GEG7K3G9FFW/mW4GMRAEYheYA4V/PM99GIt9Lsm4If8zhDYmFGsz0ss6xbXq5idzJykP4uKCenKTpttay36iZORQZjQCh3ut4b1lxA69xvHQ3rbylpnDs1JwFPT0Q/U8kqHiD0WGSFv9FBZgNSh53Pe9Y1P5eig/Qf40GL95HewkDu5LQLPPAYWA4gWSE3FOatxgeSrJk5qCLtotF2GkYZ0mf0z8mO2ixPDg4hnM0bDMi7Kg8DtyXu5BQCV39K//laglSnjZnuUSZRgBIcYciGl8/9dkmiziQ94axnAAzjUH26+tp8ECijNwKBtI24l3xiKQz0UWRLAxizZKpWYsAdrsionsm6EvR89UONE5NpGnJuYVgoS5XT7IIdLmXT8=
+  - secure: YfZBi+hQF2c4ka/bua5TJOqJePOJpQh3SrYAHbiaduO+UOFx8LdAV10slxWeDQ4wSAOUqzyn5cVZPk2dK2MSBC1WyPEMMrlufQ3ASPhQOMlGov94qOO0RJIUD3Bo8QXFkTUsFxLJyCgs7plbPwEFFjsAnObR8uS5MM9snT6g3lH0FKGqOHUnLZJEIMFB17eiTQ6663JP6Qp+lDDdrmJojnMG3VGOSUlyfvxWaeOWPwMj2xJYQd3cgNP0J8ZLKZ009N2uno98gDca3n752hL37ze77yPnCqZNtooIEctIUq2fOML9SsOxVk6eKhEdze9do5feVMJBj2je7o8N1722yep5RqE6r6XHNiVqagzZJ0BePF+/DdEXoRj5kJNGykEjKIbfcp76GLHyOK6kIoVXaYQ1A9dTZh7hpqGOqt+LNfh/sxHRltpRKRx/P4CFHhjve7cCW0tex8QkotiYWRzcx98Lvot7OQwXm+UP/IKyXb4wCsA4eKB8jfIv7VwDCe11UphKEXo7Tb18e/obVTbLXDPQ+s/dKbLX1qJWe9HzCzKQ7YP8pXQ0bAoBSlaKxO0M/P6vJvOoT8d+FHEgD27ZqbIBiTGbxGG3SOI4sCBQiz7z+bEnIKGCmA7+MH7nqxr6e8EZWD8zQrO2EZOtjcNvIN13bbCZzrtTUOv/Kmt3Mmg=
+  - secure: FTMI/3Sc2Mw3BfuA2C9nq/X2zEQymJC89ncks1MwdjVvYeIMmXAtsPkd2H4+fMDj69eSd3Bm/lv86EWWXspSFlKPl/HMwAaFT5M3dH/17VItK2Swf3/htjFvlPexo51AU6iZzeVCgeZnAVePnvG2XdLM2rCKMnPMWkl24RZjJQ5vDXPYlGvAhQuYfBlMjBVPg7ycEefocFwhj6lNGwAsGSvW1LOVFwYqiN5Ud943vjZs4WW3QrskY8zruHht9JfLKhnNOI2Ywh66mdJj3h9wFUJjslBTmz5MhrIrMf4En0yrX7lc8DtC/EjoYMJzew9AS3SucjOz5Cfkli6GG4v+XlKlgH/b4yzZkr/jBUmEV40Pya+Nq8GavOtmyWZXCxm5G3paCQi1LndguwesV7JAkE7r7FoUx1uYMOtg1CcmAh/QYwGAd+cvA0s64AVM+AY5HTq254J952mkRvqMlDnV5Hz7tt+Kl3S2x5G7uK8TpcDU9yeF3DxmKVtXuw+aK76TV0AzWbfKnLuJHkqCrr91HXhN3BbLtgr8bWX1qNMIaELBbLuk2bWyn5sGGblYoLGomVo83ILKXIwNYXAUZ8/6ch2mSyC3KiHGWejgGfJrZtb0CRN8I4Bnr0kUEGAxzR8XUmOcGbNw97adtOeaOd9cbJFN9uST1ZaB6Hls//4z0/A=
