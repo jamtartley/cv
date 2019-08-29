@@ -27,12 +27,14 @@ before_script: cd $TRAVIS_BUILD_DIR/
 script:
 - mkdir .build
 - pdflatex -interaction=nonstopmode -halt-on-error -output-directory .build cv.tex
+- find .build ! -name "*.pdf" -type f -delete
 deploy:
   provider: s3
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
   bucket: $AWS_BUCKET_NAME
   local-dir: ".build"
+  region: eu-west-2
   acl: public_read
   skip_cleanup: true
   on:
