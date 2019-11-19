@@ -3,10 +3,6 @@ dist: trusty
 language: general
 install:
 - source ./texlive/texlive_install.sh
-cache:
-  directories:
-  - "/tmp/texlive"
-  - "$HOME/.texlive"
 notifications:
   email: false
   irc:
@@ -26,7 +22,7 @@ notifications:
 before_script: cd $TRAVIS_BUILD_DIR/
 script:
 - mkdir .build
-- pdftex -interaction=nonstopmode -halt-on-error -output-directory .build cv.tex
+- pdflatex -interaction=nonstopmode -halt-on-error -output-directory .build cv.tex
 - find .build ! -name "*.pdf" -type f -delete
 deploy:
   provider: s3
