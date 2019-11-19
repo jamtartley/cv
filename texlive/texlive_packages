@@ -13,4 +13,4 @@ collection-fontsrecommended
 luaotfload
 
 # texliveonfly does not detect the following packages automatically
-moderncv minted fvextra upquote lineno xstring framed caption
+minted fvextra upquote lineno xstring framed caption moderncv fontawesome etoolbox xcolor xparse expl3 l3kernel l3packages microtype
