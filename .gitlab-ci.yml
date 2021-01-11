@@ -1,7 +1,8 @@
 stages:
   - compile
+  - deploy
 
-build:
+compile:
   stage: compile
   image: rust:latest
   before_script:
@@ -11,3 +12,14 @@ build:
   artifacts:
     paths:
       - cv.pdf
+
+deploy:
+  stage: deploy
+  image: registry.gitlab.com/gitlab-org/cloud-deploy/aws-base:latest
+  rules:
+    - if: $CI_COMMIT_BRANCH != $CI_DEFAULT_BRANCH
+      when: never
+    - when: on_success
+  script:
+    - aws s3 cp cv.pdf s3://$BUCKET_NAME
+    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION --paths "/*"
