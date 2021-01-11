@@ -1,0 +1,13 @@
+stages:
+  - compile
+
+build:
+  stage: compile
+  image: rust:latest
+  before_script:
+    - apt-get -qq update && apt-get -qq install texlive-fonts-extra
+  script:
+    - pdflatex cv.tex
+  artifacts:
+    paths:
+      - cv.pdf
