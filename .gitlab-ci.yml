@@ -22,4 +22,3 @@ deploy:
     - when: on_success
   script:
     - aws s3 cp cv.pdf s3://$BUCKET_NAME
-    - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION --paths "/*"
