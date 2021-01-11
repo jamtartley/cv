@@ -21,4 +21,4 @@ deploy:
       when: never
     - when: on_success
   script:
-    - aws s3 cp cv.pdf s3://$BUCKET_NAME
+    - aws s3 cp cv.pdf s3://$BUCKET_NAME --acl public-read
