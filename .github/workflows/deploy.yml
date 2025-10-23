@@ -28,4 +28,4 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
         run: |
-          wrangler r2 object put ${{ secrets.R2_BUCKET_NAME }}/cv.pdf --file=cv.pdf
+          wrangler r2 object put ${{ secrets.R2_BUCKET_NAME }}/cv.pdf --file=cv.pdf --remote
