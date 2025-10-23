@@ -1,0 +1,31 @@
+name: deploy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LaTeX dependencies
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y texlive-fonts-extra texlive-latex-base texlive-latex-extra
+
+      - name: Build PDF
+        run: pdflatex cv.tex
+
+      - name: Install wrangler
+        run: npm install -g wrangler
+
+      - name: Deploy to Cloudflare R2
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          wrangler r2 object put ${{ secrets.R2_BUCKET_NAME }}/cv.pdf --file=cv.pdf
