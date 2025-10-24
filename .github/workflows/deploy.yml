@@ -9,19 +9,27 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     container: texlive/texlive:latest
-
+    env:
+      CV_FILENAME: Sam_Hartley_Senior_Software_Engineer_CV.pdf
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install Node.js
+        run: |
+          apt-get update -qq
+          apt-get install -y curl
+          curl -fsSL https://deb.nodesource.com/setup_20.x | bash -
+          apt-get install -y nodejs
+
       - name: Build PDF
-        run: pdflatex cv.tex
+        run: pdflatex -jobname="${CV_FILENAME%.pdf}" cv.tex
 
       - name: Install wrangler
         run: npm install -g wrangler
 
       - name: Deploy to Cloudflare R2
         run: |
-          wrangler r2 object put "${{ secrets.R2_BUCKET_NAME }}/$CV_FILENAME" --file="$CV_FILENAME" --remote
+          wrangler r2 object put ${{ secrets.R2_BUCKET_NAME }}/$CV_FILENAME --file=$CV_FILENAME --remote
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
